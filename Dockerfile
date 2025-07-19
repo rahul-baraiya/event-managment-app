@@ -8,11 +8,18 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 
-# Install dependencies
-RUN yarn install --frozen-lockfile
+# Install dependencies without postinstall script
+RUN yarn install --frozen-lockfile --ignore-scripts
+
+# Copy TypeScript configuration files
+COPY tsconfig*.json ./
+COPY nest-cli.json ./
 
 # Copy source code
-COPY . .
+COPY src/ ./src/
+COPY .sequelizerc ./
+COPY config/ ./config/
+COPY migrations/ ./migrations/
 
 # Build the application
 RUN yarn build
