@@ -99,7 +99,7 @@ Most endpoints require authentication. Use the 'Authorize' button below to set y
     )
     .setLicense('MIT', 'https://opensource.org/licenses/MIT')
     .addServer('http://localhost:3000', 'Development server')
-    .addServer('https://your-api-domain.com', 'Production server')
+    .addServer('https://event-managment-app.onrender.com', 'Production server')
     .addBearerAuth(
       {
         type: 'http',

@@ -1,5 +1,5 @@
-# Use Node.js LTS version
-FROM node:18-alpine
+# Multi-stage build for optimization
+FROM node:18-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -8,21 +8,36 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 
-# Install dependencies without postinstall script
+# Install dependencies
 RUN yarn install --frozen-lockfile --ignore-scripts
 
-# Copy TypeScript configuration files
-COPY tsconfig*.json ./
-COPY nest-cli.json ./
-
 # Copy source code
-COPY src/ ./src/
-COPY .sequelizerc ./
-COPY config/ ./config/
-COPY migrations/ ./migrations/
+COPY . .
 
 # Build the application
 RUN yarn build
+
+# Production stage
+FROM node:18-alpine AS production
+
+# Install curl for health check
+RUN apk add --no-cache curl
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY yarn.lock ./
+
+# Install only production dependencies
+RUN yarn install --frozen-lockfile --production --ignore-scripts && yarn cache clean
+
+# Copy built application from builder stage
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/config ./config
+COPY --from=builder /app/migrations ./migrations
+COPY --from=builder /app/.sequelizerc ./.sequelizerc
 
 # Create uploads directory
 RUN mkdir -p uploads
