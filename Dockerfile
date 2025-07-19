@@ -1,8 +1,13 @@
 # Use Node.js LTS version
 FROM node:18-alpine
 
-# Install curl for health check
-RUN apk add --no-cache curl
+# Install dependencies needed for native modules and curl for health check
+RUN apk add --no-cache \
+    curl \
+    python3 \
+    make \
+    g++ \
+    && ln -sf python3 /usr/bin/python
 
 # Set working directory
 WORKDIR /app
@@ -11,8 +16,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 
-# Install dependencies without scripts
-RUN yarn install --frozen-lockfile --ignore-scripts
+# Install all dependencies first (including dev dependencies for building)
+RUN yarn install --frozen-lockfile
 
 # Copy source code and configuration files
 COPY . .
@@ -20,8 +25,8 @@ COPY . .
 # Build the application
 RUN yarn build
 
-# Remove development dependencies to reduce image size
-RUN yarn install --frozen-lockfile --production --ignore-scripts && yarn cache clean
+# Remove development dependencies and rebuild production dependencies
+RUN yarn install --production --frozen-lockfile && yarn cache clean
 
 # Create uploads directory
 RUN mkdir -p uploads
