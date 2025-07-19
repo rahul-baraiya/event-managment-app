@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - DB_NAME=event_management
+      - JWT_SECRET=your_super_secret_jwt_key_here
+      - JWT_REFRESH_SECRET=your_refresh_token_secret_here
+    depends_on:
+      - mysql
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=event_management
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+
+networks:
+  app-network:
+    driver: bridge
