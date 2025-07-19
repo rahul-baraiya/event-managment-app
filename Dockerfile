@@ -1,24 +1,5 @@
-# Multi-stage build for optimization
-FROM node:18-alpine AS builder
-
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-COPY yarn.lock ./
-
-# Install dependencies
-RUN yarn install --frozen-lockfile --ignore-scripts
-
-# Copy source code
-COPY . .
-
-# Build the application
-RUN yarn build
-
-# Production stage
-FROM node:18-alpine AS production
+# Use Node.js LTS version
+FROM node:18-alpine
 
 # Install curl for health check
 RUN apk add --no-cache curl
@@ -30,14 +11,17 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 
-# Install only production dependencies
-RUN yarn install --frozen-lockfile --production --ignore-scripts && yarn cache clean
+# Install dependencies without scripts
+RUN yarn install --frozen-lockfile --ignore-scripts
 
-# Copy built application from builder stage
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/config ./config
-COPY --from=builder /app/migrations ./migrations
-COPY --from=builder /app/.sequelizerc ./.sequelizerc
+# Copy source code and configuration files
+COPY . .
+
+# Build the application
+RUN yarn build
+
+# Remove development dependencies to reduce image size
+RUN yarn install --frozen-lockfile --production --ignore-scripts && yarn cache clean
 
 # Create uploads directory
 RUN mkdir -p uploads
