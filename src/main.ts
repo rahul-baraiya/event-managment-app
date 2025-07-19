@@ -92,12 +92,6 @@ Most endpoints require authentication. Use the 'Authorize' button below to set y
       `,
     )
     .setVersion('1.0.0')
-    .setContact(
-      'Rahul Baraiya',
-      'https://github.com/your-username/event-management-app',
-      'your-email@example.com'
-    )
-    .setLicense('MIT', 'https://opensource.org/licenses/MIT')
     .addServer('http://localhost:3000', 'Development server')
     .addServer('https://event-managment-app.onrender.com', 'Production server')
     .addBearerAuth(
