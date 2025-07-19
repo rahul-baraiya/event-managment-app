@@ -19,12 +19,14 @@ This guide covers everything you need to know for developing and contributing to
 ### Initial Setup
 
 1. **Clone the repository:**
+
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:rahul-baraiya/event-managment-app.git
 cd event-management-app
 ```
 
 2. **Install dependencies:**
+
 ```bash
 # Using npm
 npm install
@@ -34,11 +36,13 @@ yarn install
 ```
 
 3. **Environment setup:**
+
 ```bash
 cp env.example .env
 ```
 
 4. **Configure your `.env` file:**
+
 ```env
 DB_HOST=localhost
 DB_PORT=3306
@@ -51,6 +55,7 @@ NODE_ENV=development
 ```
 
 5. **Database setup:**
+
 ```bash
 # Create database
 mysql -u root -p
@@ -61,6 +66,7 @@ npm run db:migrate
 ```
 
 6. **Start development server:**
+
 ```bash
 npm run start:dev
 ```
@@ -126,17 +132,20 @@ npm run format
 ### Git Workflow
 
 1. **Create feature branch:**
+
 ```bash
 git checkout -b feature/your-feature-name
 ```
 
 2. **Make changes and commit:**
+
 ```bash
 git add .
 git commit -m "feat: add new feature"
 ```
 
 3. **Push and create PR:**
+
 ```bash
 git push origin feature/your-feature-name
 ```
@@ -144,6 +153,7 @@ git push origin feature/your-feature-name
 ### Commit Convention
 
 Use conventional commits:
+
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `docs:` - Documentation changes
@@ -273,37 +283,37 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       title: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       startDate: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       endDate: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
 
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Events');
-  }
+  },
 };
 ```
 
@@ -507,14 +517,7 @@ export class NewFeatureService {
 
 ```typescript
 // new-feature.controller.ts
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { NewFeatureService } from './new-feature.service';
 import { CreateNewFeatureDto } from './dto/create-new-feature.dto';
@@ -655,18 +658,23 @@ npm audit fix
 ## 🚨 Common Issues & Solutions
 
 ### Issue: Module not found errors
+
 **Solution:** Check import paths and ensure modules are properly exported
 
 ### Issue: Database connection fails
+
 **Solution:** Verify database credentials and ensure MySQL is running
 
 ### Issue: JWT token errors
+
 **Solution:** Check JWT secret configuration and token expiration
 
 ### Issue: File upload fails
+
 **Solution:** Verify file size limits and allowed file types
 
 ### Issue: Tests failing
+
 **Solution:** Ensure test database is set up and migrations are run
 
 ## 📚 Useful Resources

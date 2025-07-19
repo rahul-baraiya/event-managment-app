@@ -34,6 +34,7 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 ## ✨ Features
 
 ### 🔐 Authentication & Authorization
+
 - **JWT-based Authentication** with refresh tokens
 - **Role-based Access Control** (User, Admin, Moderator)
 - **Password Security** with bcrypt hashing (12 salt rounds)
@@ -42,6 +43,7 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 - **Secure Token Generation** for password resets
 
 ### 🎯 Event Management
+
 - **Full CRUD Operations** for events
 - **Advanced Filtering** (search, category, date range, guest count)
 - **Pagination & Sorting** with customizable limits
@@ -50,6 +52,7 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 - **Event Status Management** (draft, active, completed, cancelled)
 
 ### 🛡️ Security Features
+
 - **OWASP Top 10 Protection** implemented
 - **Rate Limiting** (100 requests per 15 minutes per IP)
 - **CORS Configuration** with origin whitelist
@@ -60,6 +63,7 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 - **Request/Response Logging** for security auditing
 
 ### 📊 Monitoring & Logging
+
 - **Request/Response Logging** with performance metrics
 - **Health Check Endpoints** for monitoring
 - **Error Tracking** with detailed stack traces
@@ -68,6 +72,7 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 - **Performance Metrics** tracking
 
 ### 🎨 Developer Experience
+
 - **Swagger/OpenAPI Documentation** with interactive UI
 - **TypeScript** for type safety and better DX
 - **Comprehensive Testing** (Unit & E2E)
@@ -77,12 +82,14 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 - **Git Hooks** for automated checks
 
 ### 📊 Monitoring & Logging
+
 - **Request/Response Logging** with performance metrics
 - **Health Check Endpoints** for monitoring
 - **Error Tracking** with detailed stack traces
 - **Security Event Logging** for audit trails
 
 ### 🎨 Developer Experience
+
 - **Swagger/OpenAPI Documentation** with interactive UI
 - **TypeScript** for type safety
 - **Comprehensive Testing** (Unit & E2E)
@@ -92,16 +99,19 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 ## 🛠️ Tech Stack
 
 ### Backend Framework
+
 - **[NestJS](https://nestjs.com/)** - Progressive Node.js framework
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
 - **[Express](https://expressjs.com/)** - Web application framework
 
 ### Database & ORM
+
 - **[MySQL](https://www.mysql.com/)** - Relational database
 - **[Sequelize](https://sequelize.org/)** - Promise-based ORM
 - **[Sequelize TypeScript](https://github.com/RobinBuschmann/sequelize-typescript)** - TypeScript decorators
 
 ### Authentication & Security
+
 - **[Passport.js](http://www.passportjs.org/)** - Authentication middleware
 - **[JWT](https://jwt.io/)** - JSON Web Tokens
 - **[bcrypt](https://github.com/dcodeIO/bcrypt.js/)** - Password hashing
@@ -109,15 +119,18 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 - **[express-rate-limit](https://github.com/nfriedly/express-rate-limit)** - Rate limiting
 
 ### File Handling
+
 - **[Multer](https://github.com/expressjs/multer)** - File upload middleware
 - **[UUID](https://github.com/uuidjs/uuid)** - Unique file naming
 
 ### Validation & Documentation
+
 - **[class-validator](https://github.com/typestack/class-validator)** - Validation decorators
 - **[class-transformer](https://github.com/typestack/class-transformer)** - Object transformation
 - **[Swagger/OpenAPI](https://swagger.io/)** - API documentation
 
 ### Testing
+
 - **[Jest](https://jestjs.io/)** - Testing framework
 - **[Supertest](https://github.com/visionmedia/supertest)** - HTTP testing
 
@@ -133,7 +146,7 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone git@github.com:rahul-baraiya/event-managment-app.git
 cd event-management-app
 
 # Install dependencies
@@ -155,7 +168,7 @@ Visit [http://localhost:3000/api](http://localhost:3000/api) for API documentati
 ### 1. Clone Repository
 
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:rahul-baraiya/event-managment-app.git
 cd event-management-app
 ```
 
@@ -274,6 +287,7 @@ yarn db:reset
 ### 3. Database Schema
 
 #### Users Table
+
 ```sql
 CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -290,6 +304,7 @@ CREATE TABLE users (
 ```
 
 #### Events Table
+
 ```sql
 CREATE TABLE events (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -493,10 +508,12 @@ Referrer-Policy: strict-origin-when-cross-origin
 Our API includes comprehensive, interactive documentation powered by Swagger/OpenAPI:
 
 #### 🌐 Access Points
+
 - **Development**: [http://localhost:3001/api](http://localhost:3001/api)
 - **Health Check**: [http://localhost:3001/health](http://localhost:3001/health)
 
 #### 🎯 Features
+
 - **Interactive Testing**: Try endpoints directly in the browser
 - **Authentication Support**: Built-in JWT token management
 - **Complete Schema Documentation**: Request/response models with examples
@@ -505,6 +522,7 @@ Our API includes comprehensive, interactive documentation powered by Swagger/Ope
 - **Comprehensive Error Documentation**: All response codes and error formats
 
 #### 🔐 Authentication in Swagger
+
 1. Register a new user via `POST /auth/register`
 2. Login via `POST /auth/login` to get your JWT token
 3. Click the **"Authorize"** button in Swagger UI
@@ -512,6 +530,7 @@ Our API includes comprehensive, interactive documentation powered by Swagger/Ope
 5. All protected endpoints will now work seamlessly
 
 #### 📖 Documentation Files
+
 - [`docs/SWAGGER.md`](docs/SWAGGER.md) - Complete Swagger documentation guide
 - [`docs/API_REFERENCE.md`](docs/API_REFERENCE.md) - Quick API reference with cURL examples
 - [`docs/API.md`](docs/API.md) - Detailed API specifications
@@ -519,6 +538,7 @@ Our API includes comprehensive, interactive documentation powered by Swagger/Ope
 ### API Endpoints
 
 #### Authentication
+
 ```
 POST /auth/register     # User registration
 POST /auth/login        # User login
@@ -527,6 +547,7 @@ GET  /auth/profile      # Get user profile
 ```
 
 #### Events
+
 ```
 GET    /events          # List events (with filtering)
 POST   /events          # Create event
@@ -536,6 +557,7 @@ DELETE /events/:id      # Delete event
 ```
 
 #### Users
+
 ```
 GET    /users           # List users
 POST   /users           # Create user
@@ -545,6 +567,7 @@ DELETE /users/:id       # Delete user
 ```
 
 #### File Uploads
+
 ```
 POST /uploads           # Upload file
 GET  /uploads/:filename # Get file
@@ -553,6 +576,7 @@ GET  /uploads/:filename # Get file
 ### Request Examples
 
 #### Create Event
+
 ```bash
 curl -X POST http://localhost:3000/events \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
@@ -568,6 +592,7 @@ curl -X POST http://localhost:3000/events \
 ```
 
 #### Upload File
+
 ```bash
 curl -X POST http://localhost:3000/events \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
@@ -606,6 +631,7 @@ curl -X POST http://localhost:3000/events \
 ## � Scripts Reference
 
 ### Development Scripts
+
 ```bash
 # Start development server with hot reload
 npm run start:dev
@@ -621,6 +647,7 @@ npm run start:prod
 ```
 
 ### Testing Scripts
+
 ```bash
 # Run unit tests
 npm test
@@ -639,6 +666,7 @@ npm run test:all
 ```
 
 ### Database Scripts
+
 ```bash
 # Run database migrations
 npm run db:migrate
@@ -657,6 +685,7 @@ npm run db:reset
 ```
 
 ### Code Quality Scripts
+
 ```bash
 # Lint and fix code
 npm run lint
@@ -711,6 +740,7 @@ ENABLE_LOGGING=true
 ### Production Deployment
 
 See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for comprehensive deployment instructions including:
+
 - Docker deployment
 - Cloud platform deployment (AWS, Heroku, Vercel)
 - Traditional server deployment
@@ -718,32 +748,33 @@ See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for comprehensive deployment instruction
 
 ## 📋 Environment Variables
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `DB_HOST` | Database host | `localhost` | ✅ |
-| `DB_PORT` | Database port | `3306` | ❌ |
-| `DB_USERNAME` | Database username | `root` | ✅ |
-| `DB_PASSWORD` | Database password | - | ✅ |
-| `DB_NAME` | Database name | `event_management` | ✅ |
-| `JWT_SECRET` | JWT secret key | - | ✅ |
-| `JWT_REFRESH_SECRET` | Refresh token secret | - | ✅ |
-| `JWT_EXPIRES_IN` | Access token expiry | `24h` | ❌ |
-| `JWT_REFRESH_EXPIRES_IN` | Refresh token expiry | `7d` | ❌ |
-| `PORT` | Application port | `3000` | ❌ |
-| `NODE_ENV` | Environment | `development` | ❌ |
-| `ALLOWED_ORIGINS` | CORS origins | `http://localhost:3000` | ❌ |
-| `RATE_LIMIT_WINDOW_MS` | Rate limit window | `900000` | ❌ |
-| `RATE_LIMIT_MAX_REQUESTS` | Max requests per window | `100` | ❌ |
-| `MAX_FILE_SIZE` | Max upload file size | `5242880` | ❌ |
-| `ALLOWED_FILE_TYPES` | Allowed MIME types | `image/jpeg,image/png...` | ❌ |
-| `LOG_LEVEL` | Logging level | `info` | ❌ |
-| `ENABLE_LOGGING` | Enable logging | `true` | ❌ |
+| Variable                  | Description             | Default                   | Required |
+| ------------------------- | ----------------------- | ------------------------- | -------- |
+| `DB_HOST`                 | Database host           | `localhost`               | ✅       |
+| `DB_PORT`                 | Database port           | `3306`                    | ❌       |
+| `DB_USERNAME`             | Database username       | `root`                    | ✅       |
+| `DB_PASSWORD`             | Database password       | -                         | ✅       |
+| `DB_NAME`                 | Database name           | `event_management`        | ✅       |
+| `JWT_SECRET`              | JWT secret key          | -                         | ✅       |
+| `JWT_REFRESH_SECRET`      | Refresh token secret    | -                         | ✅       |
+| `JWT_EXPIRES_IN`          | Access token expiry     | `24h`                     | ❌       |
+| `JWT_REFRESH_EXPIRES_IN`  | Refresh token expiry    | `7d`                      | ❌       |
+| `PORT`                    | Application port        | `3000`                    | ❌       |
+| `NODE_ENV`                | Environment             | `development`             | ❌       |
+| `ALLOWED_ORIGINS`         | CORS origins            | `http://localhost:3000`   | ❌       |
+| `RATE_LIMIT_WINDOW_MS`    | Rate limit window       | `900000`                  | ❌       |
+| `RATE_LIMIT_MAX_REQUESTS` | Max requests per window | `100`                     | ❌       |
+| `MAX_FILE_SIZE`           | Max upload file size    | `5242880`                 | ❌       |
+| `ALLOWED_FILE_TYPES`      | Allowed MIME types      | `image/jpeg,image/png...` | ❌       |
+| `LOG_LEVEL`               | Logging level           | `info`                    | ❌       |
+| `ENABLE_LOGGING`          | Enable logging          | `true`                    | ❌       |
 
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
 #### Database Connection Errors
+
 ```bash
 # Check MySQL service status
 sudo systemctl status mysql
@@ -757,6 +788,7 @@ SHOW DATABASES;
 ```
 
 #### Port Already in Use
+
 ```bash
 # Find process using port 3000
 lsof -i :3000
@@ -769,16 +801,19 @@ PORT=3001 npm run start:dev
 ```
 
 #### JWT Token Errors
+
 - Ensure `JWT_SECRET` is set in `.env`
 - Verify token is included in Authorization header
 - Check token expiration settings
 
 #### File Upload Issues
+
 - Check file size limits (`MAX_FILE_SIZE`)
 - Verify file type is allowed (`ALLOWED_FILE_TYPES`)
 - Ensure `uploads/` directory exists and is writable
 
 #### Migration Errors
+
 ```bash
 # Check migration status
 npx sequelize-cli db:migrate:status
@@ -789,6 +824,7 @@ npm run db:migrate
 ```
 
 #### Permission Denied
+
 ```bash
 # Fix uploads directory permissions
 chmod 755 uploads/
@@ -800,6 +836,7 @@ sudo chown -R $(whoami) ~/.npm
 ### Debug Mode
 
 Start the application in debug mode:
+
 ```bash
 npm run start:debug
 ```
@@ -809,12 +846,14 @@ Then attach your debugger to port 9229.
 ### Logging
 
 Enable detailed logging:
+
 ```env
 LOG_LEVEL=debug
 ENABLE_LOGGING=true
 ```
 
 Check application logs:
+
 ```bash
 # Development
 npm run start:dev
@@ -826,11 +865,13 @@ pm2 logs event-api
 ### Performance Issues
 
 #### Database Performance
+
 - Check database indexes
 - Monitor slow queries
 - Optimize query patterns
 
 #### Memory Issues
+
 ```bash
 # Check memory usage
 node --inspect --max-old-space-size=4096 dist/src/main.js
@@ -861,7 +902,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **📚 Documentation**: Check the [docs/](docs/) directory for comprehensive guides
 - **🌐 API Docs**: Interactive documentation at [http://localhost:3000/api](http://localhost:3000/api)
 - **🐛 Issues**: Create an issue on GitHub with detailed information
-- **🔒 Security**: Report security vulnerabilities privately to [security@example.com]
+- **🔒 Security**: Report security vulnerabilities privately to [dev.rahulbaraiya@gmail.com]
 - **💬 Discussions**: Join GitHub Discussions for questions and community support
 
 ### Project Status
@@ -876,7 +917,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by [Rahul Baraiya](https://github.com/rahulbaraiya)**
+**Made with ❤️ by [Rahul Baraiya](https://github.com/rahul-baraiya)**
 
 ⭐ Star this repository if it helped you!
 
@@ -885,6 +926,7 @@ mysql -u your_username -p your_database
 ```
 
 #### Port Conflicts
+
 ```bash
 # Check if port 3000 is in use
 netstat -tulpn | grep :3000
@@ -894,6 +936,7 @@ kill -9 $(lsof -t -i:3000)
 ```
 
 #### File Upload Issues
+
 ```bash
 # Check uploads directory permissions
 ls -la uploads/
@@ -905,6 +948,6 @@ chmod 755 uploads
 
 ---
 
-**Made with ❤️ by [Your Name]**
+**Made with ❤️ by Rahul Baraiya**
 
 For questions and support, please open an issue on GitHub.

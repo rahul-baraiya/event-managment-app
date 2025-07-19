@@ -4,7 +4,7 @@ This guide covers different deployment strategies for the Event Management API.
 
 ## 📋 Prerequisites
 
-- Node.js 16+ 
+- Node.js 16+
 - MySQL 8.0+
 - Docker (optional)
 - Git
@@ -14,6 +14,7 @@ This guide covers different deployment strategies for the Event Management API.
 ### Quick Start with Docker Compose
 
 1. **Clone and configure:**
+
 ```bash
 git clone git@github.com:rahul-baraiya/event-managment-app.git
 cd event-management-app
@@ -21,12 +22,14 @@ cp env.example .env
 ```
 
 2. **Configure environment:**
+
 ```bash
 # Edit .env file with your settings
 nano .env
 ```
 
 3. **Start with Docker Compose:**
+
 ```bash
 docker-compose up -d
 ```
@@ -36,11 +39,13 @@ The application will be available at `http://localhost:3000`
 ### Manual Docker Setup
 
 1. **Build the image:**
+
 ```bash
 docker build -t event-management-api .
 ```
 
 2. **Run MySQL container:**
+
 ```bash
 docker run -d \
   --name mysql-db \
@@ -51,6 +56,7 @@ docker run -d \
 ```
 
 3. **Run the application:**
+
 ```bash
 docker run -d \
   --name event-api \
@@ -66,12 +72,14 @@ docker run -d \
 ### Ubuntu/Debian Server
 
 1. **Install Node.js:**
+
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
 2. **Install MySQL:**
+
 ```bash
 sudo apt update
 sudo apt install mysql-server
@@ -79,6 +87,7 @@ sudo mysql_secure_installation
 ```
 
 3. **Create database:**
+
 ```bash
 mysql -u root -p
 CREATE DATABASE event_management;
@@ -89,8 +98,9 @@ EXIT;
 ```
 
 4. **Deploy application:**
+
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:rahul-baraiya/event-managment-app.git
 cd event-management-app
 npm install
 cp env.example .env
@@ -100,6 +110,7 @@ npm run db:migrate
 ```
 
 5. **Use PM2 for production:**
+
 ```bash
 npm install -g pm2
 pm2 start dist/src/main.js --name "event-api"
@@ -112,23 +123,26 @@ pm2 save
 ### AWS EC2 + RDS
 
 1. **Setup RDS MySQL:**
+
    - Create MySQL 8.0 RDS instance
    - Configure security groups
    - Note the endpoint and credentials
 
 2. **Setup EC2:**
+
    - Launch Ubuntu 20.04 LTS instance
    - Configure security groups (allow 22, 80, 443, 3000)
    - SSH into instance
 
 3. **Deploy application:**
+
 ```bash
 # Install Node.js and dependencies
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs git nginx
 
 # Clone and setup app
-git clone <your-repo-url>
+git clone git@github.com:rahul-baraiya/event-managment-app.git
 cd event-management-app
 npm install
 cp env.example .env
@@ -150,6 +164,7 @@ pm2 save
 ```
 
 4. **Configure Nginx:**
+
 ```nginx
 server {
     listen 80;
@@ -172,6 +187,7 @@ server {
 ### Heroku Deployment
 
 1. **Prepare for Heroku:**
+
 ```bash
 # Install Heroku CLI
 npm install -g heroku
@@ -181,16 +197,19 @@ heroku login
 ```
 
 2. **Create Heroku app:**
+
 ```bash
 heroku create your-app-name
 ```
 
 3. **Add MySQL addon:**
+
 ```bash
 heroku addons:create jawsdb:kitefin
 ```
 
 4. **Configure environment:**
+
 ```bash
 heroku config:set NODE_ENV=production
 heroku config:set JWT_SECRET=your-production-jwt-secret
@@ -198,6 +217,7 @@ heroku config:set JWT_REFRESH_SECRET=your-production-refresh-secret
 ```
 
 5. **Deploy:**
+
 ```bash
 git push heroku main
 heroku run npm run db:migrate
@@ -206,11 +226,13 @@ heroku run npm run db:migrate
 ### Vercel Deployment
 
 1. **Install Vercel CLI:**
+
 ```bash
 npm install -g vercel
 ```
 
 2. **Create vercel.json:**
+
 ```json
 {
   "version": 2,
@@ -230,6 +252,7 @@ npm install -g vercel
 ```
 
 3. **Deploy:**
+
 ```bash
 npm run build
 vercel --prod
@@ -291,6 +314,7 @@ ENABLE_LOGGING=true
 ## 📊 Monitoring Setup
 
 ### PM2 Monitoring
+
 ```bash
 pm2 install pm2-logrotate
 pm2 set pm2-logrotate:max_size 10M
@@ -298,12 +322,15 @@ pm2 set pm2-logrotate:retain 30
 ```
 
 ### Health Checks
+
 Setup monitoring for the health endpoint:
+
 ```bash
 curl http://localhost:3000/health
 ```
 
 ### Log Management
+
 ```bash
 # View logs
 pm2 logs
@@ -321,47 +348,48 @@ name: Deploy to Production
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
-        
-    - name: Install dependencies
-      run: npm install
-      
-    - name: Run tests
-      run: npm test
-      
-    - name: Build application
-      run: npm run build
-      
-    - name: Deploy to server
-      uses: appleboy/ssh-action@v0.1.2
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          cd /path/to/your/app
-          git pull origin main
-          npm install
-          npm run build
-          npm run db:migrate
-          pm2 restart event-api
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build application
+        run: npm run build
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /path/to/your/app
+            git pull origin main
+            npm install
+            npm run build
+            npm run db:migrate
+            pm2 restart event-api
 ```
 
 ## 🛠️ Maintenance
 
 ### Database Migrations
+
 ```bash
 # Create new migration
 npx sequelize-cli migration:generate --name add-new-field
@@ -374,6 +402,7 @@ npm run db:migrate:undo
 ```
 
 ### Backups
+
 ```bash
 # Backup database
 mysqldump -u username -p event_management > backup.sql
@@ -383,6 +412,7 @@ mysql -u username -p event_management < backup.sql
 ```
 
 ### Updates
+
 ```bash
 # Update dependencies
 npm update
