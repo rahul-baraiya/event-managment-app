@@ -11,18 +11,14 @@ The Event Management API implements comprehensive security measures following OW
 ### JWT (JSON Web Tokens)
 
 #### Access Tokens
+
 - **Algorithm**: HS256
 - **Expiration**: 24 hours (configurable)
 - **Payload**: User ID, username, roles
 - **Secret**: Environment variable `JWT_SECRET`
 
-#### Refresh Tokens
-- **Algorithm**: HS256
-- **Expiration**: 7 days (configurable)
-- **Purpose**: Regenerate access tokens
-- **Secret**: Environment variable `JWT_REFRESH_SECRET`
-
 #### Implementation
+
 ```typescript
 // JWT Strategy
 @Injectable()
@@ -36,10 +32,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
-    return { 
-      userId: payload.sub, 
+    return {
+      userId: payload.sub,
       username: payload.username,
-      roles: payload.roles 
+      roles: payload.roles,
     };
   }
 }
@@ -48,15 +44,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 ### Password Security
 
 #### Hashing
+
 - **Algorithm**: bcrypt
 - **Salt Rounds**: 12
 - **Implementation**:
+
 ```typescript
 const saltRounds = 12;
 const hashedPassword = await bcrypt.hash(password, saltRounds);
 ```
 
 #### Password Policy
+
 - Minimum 8 characters
 - Must contain uppercase letter
 - Must contain lowercase letter
@@ -66,11 +65,13 @@ const hashedPassword = await bcrypt.hash(password, saltRounds);
 ### Role-Based Access Control (RBAC)
 
 #### Roles
+
 - **User**: Basic user permissions
 - **Admin**: Full system access
 - **Moderator**: Limited admin permissions
 
 #### Implementation
+
 ```typescript
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('admin')
@@ -85,11 +86,12 @@ adminOnlyEndpoint() {
 ### CORS (Cross-Origin Resource Sharing)
 
 #### Configuration
+
 ```typescript
 const corsOptions = {
   origin: process.env.ALLOWED_ORIGINS?.split(',') || [
     'http://localhost:3000',
-    'http://localhost:3001'
+    'http://localhost:3001',
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
@@ -100,6 +102,7 @@ const corsOptions = {
 ### Security Headers (Helmet.js)
 
 #### Headers Applied
+
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
 - `X-XSS-Protection: 1; mode=block`
@@ -107,6 +110,7 @@ const corsOptions = {
 - `Content-Security-Policy: default-src 'self'`
 
 #### Configuration
+
 ```typescript
 const helmetOptions = {
   contentSecurityPolicy: {
@@ -114,7 +118,7 @@ const helmetOptions = {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"],
+      imgSrc: ["'self'", 'data:', 'https:'],
     },
   },
   hsts: {
@@ -128,11 +132,13 @@ const helmetOptions = {
 ### Rate Limiting
 
 #### Configuration
+
 - **Window**: 15 minutes
 - **Max Requests**: 100 per IP
 - **Headers**: Includes rate limit information
 
 #### Implementation
+
 ```typescript
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -148,6 +154,7 @@ const limiter = rateLimit({
 ### Validation (class-validator)
 
 #### Example DTO
+
 ```typescript
 export class CreateEventDto {
   @IsString()
@@ -176,6 +183,7 @@ export class CreateEventDto {
 ### Sanitization Middleware
 
 #### HTML/XSS Sanitization
+
 ```typescript
 @Injectable()
 export class SanitizeMiddleware implements NestMiddleware {
@@ -188,7 +196,7 @@ export class SanitizeMiddleware implements NestMiddleware {
 
   private sanitizeObject(obj: any) {
     if (!obj) return;
-    
+
     for (const key in obj) {
       if (typeof obj[key] === 'string') {
         obj[key] = DOMPurify.sanitize(obj[key]);
@@ -205,28 +213,31 @@ export class SanitizeMiddleware implements NestMiddleware {
 ### SQL Injection Prevention
 
 #### Parameterized Queries (Sequelize)
+
 ```typescript
 // Safe - Sequelize handles parameterization
 const events = await this.eventModel.findAll({
   where: {
     title: {
-      [Op.like]: `%${searchTerm}%`
-    }
-  }
+      [Op.like]: `%${searchTerm}%`,
+    },
+  },
 });
 
 // Unsafe - Never do this
 const events = await sequelize.query(
-  `SELECT * FROM Events WHERE title LIKE '%${searchTerm}%'`
+  `SELECT * FROM Events WHERE title LIKE '%${searchTerm}%'`,
 );
 ```
 
 ### Database Connection Security
+
 - Use environment variables for credentials
 - Implement connection pooling
 - Use SSL for database connections in production
 
 #### Secure Connection Example
+
 ```typescript
 SequelizeModule.forRoot({
   dialect: 'mysql',
@@ -237,23 +248,27 @@ SequelizeModule.forRoot({
   database: process.env.DB_NAME,
   ssl: process.env.NODE_ENV === 'production',
   dialectOptions: {
-    ssl: process.env.NODE_ENV === 'production' ? {
-      require: true,
-      rejectUnauthorized: false
-    } : false
-  }
-})
+    ssl:
+      process.env.NODE_ENV === 'production'
+        ? {
+            require: true,
+            rejectUnauthorized: false,
+          }
+        : false,
+  },
+});
 ```
 
 ## 📁 File Upload Security
 
 ### File Type Validation
+
 ```typescript
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
   'image/png',
   'image/gif',
-  'image/webp'
+  'image/webp',
 ];
 
 const fileFilter = (req: any, file: any, cb: any) => {
@@ -266,6 +281,7 @@ const fileFilter = (req: any, file: any, cb: any) => {
 ```
 
 ### File Size Limits
+
 ```typescript
 const upload = multer({
   storage: diskStorage({
@@ -273,7 +289,7 @@ const upload = multer({
     filename: (req, file, cb) => {
       const uniqueName = `${Date.now()}-${file.originalname}`;
       cb(null, uniqueName);
-    }
+    },
   }),
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB
@@ -283,6 +299,7 @@ const upload = multer({
 ```
 
 ### Secure File Serving
+
 ```typescript
 app.useStaticAssets(join(__dirname, '..', 'uploads'), {
   prefix: '/uploads/',
@@ -298,6 +315,7 @@ app.useStaticAssets(join(__dirname, '..', 'uploads'), {
 ### Security Event Logging
 
 #### Custom Logger Service
+
 ```typescript
 @Injectable()
 export class LoggerService {
@@ -315,6 +333,7 @@ export class LoggerService {
 ```
 
 #### Security Events to Log
+
 - Failed login attempts
 - Invalid JWT tokens
 - Rate limit violations
@@ -325,6 +344,7 @@ export class LoggerService {
 ### Request/Response Logging
 
 #### Logging Interceptor
+
 ```typescript
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -347,7 +367,9 @@ export class LoggingInterceptor implements NestInterceptor {
         error: (error) => {
           const delay = Date.now() - now;
           this.logger.error(
-            `${method} ${url} ${error.status || 500} ${delay}ms - ${error.message}`
+            `${method} ${url} ${error.status || 500} ${delay}ms - ${
+              error.message
+            }`,
           );
         },
       }),
@@ -361,6 +383,7 @@ export class LoggingInterceptor implements NestInterceptor {
 ### Secure Error Responses
 
 #### Exception Filter
+
 ```typescript
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -397,10 +420,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
 ### Environment Variables
 
 #### Required Security Variables
+
 ```env
 # JWT Configuration (Use strong secrets)
 JWT_SECRET=your-super-long-random-production-jwt-secret-minimum-64-chars
-JWT_REFRESH_SECRET=your-super-long-random-refresh-secret-minimum-64-chars
 
 # Database Security
 DB_PASSWORD=your-secure-database-password
@@ -415,6 +438,7 @@ RATE_LIMIT_MAX_REQUESTS=100
 ```
 
 #### Best Practices
+
 - Use different secrets for different environments
 - Rotate secrets regularly
 - Never commit secrets to version control
@@ -425,6 +449,7 @@ RATE_LIMIT_MAX_REQUESTS=100
 ### Security Test Examples
 
 #### Authentication Tests
+
 ```typescript
 describe('Authentication Security', () => {
   it('should reject invalid JWT tokens', async () => {
@@ -440,7 +465,7 @@ describe('Authentication Security', () => {
       .send({
         username: 'test',
         email: 'test@example.com',
-        password: '123' // Weak password
+        password: '123', // Weak password
       })
       .expect(400);
   });
@@ -448,16 +473,17 @@ describe('Authentication Security', () => {
 ```
 
 #### Rate Limiting Tests
+
 ```typescript
 describe('Rate Limiting', () => {
   it('should enforce rate limits', async () => {
     // Make 101 requests rapidly
-    const requests = Array(101).fill(null).map(() => 
-      request(app.getHttpServer()).get('/events')
-    );
+    const requests = Array(101)
+      .fill(null)
+      .map(() => request(app.getHttpServer()).get('/events'));
 
     const responses = await Promise.all(requests);
-    
+
     // Last request should be rate limited
     expect(responses[100].status).toBe(429);
   });
@@ -467,6 +493,7 @@ describe('Rate Limiting', () => {
 ## 🚀 Production Security Checklist
 
 ### Pre-Deployment
+
 - [ ] All environment variables configured
 - [ ] Strong JWT secrets generated
 - [ ] Database credentials secured
@@ -478,6 +505,7 @@ describe('Rate Limiting', () => {
 - [ ] Logging configured
 
 ### Infrastructure
+
 - [ ] HTTPS/TLS enabled
 - [ ] Firewall configured
 - [ ] Database access restricted
@@ -486,6 +514,7 @@ describe('Rate Limiting', () => {
 - [ ] Security updates automated
 
 ### Ongoing Security
+
 - [ ] Regular dependency updates
 - [ ] Security log monitoring
 - [ ] Penetration testing

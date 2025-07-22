@@ -213,7 +213,6 @@ heroku addons:create jawsdb:kitefin
 ```bash
 heroku config:set NODE_ENV=production
 heroku config:set JWT_SECRET=your-production-jwt-secret
-heroku config:set JWT_REFRESH_SECRET=your-production-refresh-secret
 ```
 
 5. **Deploy:**
@@ -272,9 +271,7 @@ DB_NAME=event_management
 
 # JWT Configuration (Use strong secrets in production)
 JWT_SECRET=your-super-long-random-production-jwt-secret-here-minimum-64-chars
-JWT_REFRESH_SECRET=your-super-long-random-production-refresh-secret-here-minimum-64-chars
 JWT_EXPIRES_IN=15m
-JWT_REFRESH_EXPIRES_IN=7d
 
 # Application Configuration
 PORT=3000

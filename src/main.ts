@@ -68,7 +68,7 @@ async function bootstrap() {
       `A comprehensive API for managing events with CRUD operations, authentication, and file uploads.
       
 ## Features
-- 🔐 JWT Authentication with refresh tokens
+- 🔐 JWT Authentication
 - 🎯 Full CRUD operations for events
 - 📁 File upload support for event images
 - 🔍 Advanced filtering and pagination

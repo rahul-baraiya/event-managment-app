@@ -8,6 +8,7 @@ import {
   Min,
   MaxLength,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateEventDto {
@@ -49,6 +50,13 @@ export class CreateEventDto {
     example: 100,
     minimum: 1,
   })
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      const parsed = parseInt(value, 10);
+      return isNaN(parsed) ? value : parsed;
+    }
+    return value;
+  })
   @IsNumber()
   @Min(1)
   totalGuests: number;
@@ -76,6 +84,13 @@ export class CreateEventDto {
     description: 'Price of the event ticket',
     example: 50.0,
     required: false,
+  })
+  @Transform(({ value }) => {
+    if (typeof value === 'string' && value.trim() !== '') {
+      const parsed = parseFloat(value);
+      return isNaN(parsed) ? value : parsed;
+    }
+    return value;
   })
   @IsNumber()
   @IsOptional()

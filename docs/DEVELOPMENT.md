@@ -50,7 +50,6 @@ DB_USERNAME=root
 DB_PASSWORD=your_password
 DB_NAME=event_management_dev
 JWT_SECRET=your-development-jwt-secret
-JWT_REFRESH_SECRET=your-development-refresh-secret
 NODE_ENV=development
 ```
 
@@ -82,7 +81,6 @@ src/
 │   ├── auth.service.ts      # Auth business logic
 │   ├── auth.module.ts       # Auth module definition
 │   ├── jwt.strategy.ts      # JWT strategy
-│   ├── refresh-token.strategy.ts
 │   └── dto/                 # Data Transfer Objects
 ├── common/                  # Shared modules
 │   ├── config/              # Configuration files

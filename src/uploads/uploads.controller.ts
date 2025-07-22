@@ -4,6 +4,7 @@ import {
   UseInterceptors,
   UploadedFiles,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import {
@@ -26,27 +27,39 @@ export class UploadsController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FilesInterceptor('files', 10))
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Upload files',
-    description: 'Upload one or more image files. Maximum 10 files per request, 5MB per file.' 
+    description:
+      'Upload one or more image files. Maximum 10 files per request, 5MB per file.',
   })
-  @ApiResponse({ 
-    status: 201, 
+  @ApiResponse({
+    status: 201,
     description: 'Files uploaded successfully',
     schema: {
       type: 'object',
       properties: {
-        filenames: {
+        files: {
           type: 'array',
-          items: { type: 'string' },
-          example: ['1690123456789-image1.jpg', '1690123456790-image2.jpg']
+          items: {
+            type: 'object',
+            properties: {
+              filename: { type: 'string' },
+              url: { type: 'string' },
+            },
+          },
+          example: [
+            {
+              filename: '1690123456789-image1.jpg',
+              url: '/uploads/1690123456789-image1.jpg',
+            },
+          ],
         },
         message: {
           type: 'string',
-          example: 'Files uploaded successfully'
-        }
-      }
-    }
+          example: 'Files uploaded successfully',
+        },
+      },
+    },
   })
   @ApiResponse({ status: 400, description: 'Invalid file type or size' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -70,15 +83,21 @@ export class UploadsController {
   })
   async uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
     if (!files || files.length === 0) {
-      throw new Error('No files provided');
+      throw new BadRequestException('No files provided');
     }
 
-    const filenames = await Promise.all(
-      files.map((file) => this.uploadsService.handleFileUpload(file)),
+    const uploadedFiles = await Promise.all(
+      files.map(async (file) => {
+        const filename = await this.uploadsService.handleFileUpload(file);
+        return {
+          filename,
+          url: this.uploadsService.getFileUrl(filename),
+        };
+      }),
     );
 
     return {
-      filenames,
+      files: uploadedFiles,
       message: 'Files uploaded successfully',
     };
   }

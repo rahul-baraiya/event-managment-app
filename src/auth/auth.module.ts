@@ -14,7 +14,7 @@ import { UsersModule } from '../users/users.module';
     PassportModule,
     SequelizeModule.forFeature([User]),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'your-secret-key',
+      secret: process.env.JWT_SECRET || 'your_super_secret_jwt_key_here',
       signOptions: { expiresIn: process.env.JWT_EXPIRES_IN || '24h' },
     }),
   ],

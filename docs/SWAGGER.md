@@ -12,6 +12,7 @@ The Event Management API includes comprehensive Swagger/OpenAPI documentation th
 ## Features
 
 ### 🎯 Comprehensive API Documentation
+
 - **Interactive UI**: Full Swagger UI with try-it-out functionality
 - **Authentication Support**: Built-in JWT Bearer token authentication
 - **Multiple Servers**: Development, staging, and production server configurations
@@ -20,6 +21,7 @@ The Event Management API includes comprehensive Swagger/OpenAPI documentation th
 ### 📋 Documented Endpoints
 
 #### Authentication (`/auth`)
+
 - `POST /auth/register` - User registration
 - `POST /auth/login` - User login
 - `GET /auth/profile` - Get user profile (requires auth)
@@ -27,6 +29,7 @@ The Event Management API includes comprehensive Swagger/OpenAPI documentation th
 - `DELETE /auth/delete/:id` - Delete user account (requires auth)
 
 #### Events (`/events`)
+
 - `POST /events` - Create new event with file upload support (requires auth)
 - `GET /events` - Get all events with filtering and pagination
 - `GET /events/:id` - Get specific event by ID
@@ -34,6 +37,7 @@ The Event Management API includes comprehensive Swagger/OpenAPI documentation th
 - `DELETE /events/:id` - Delete event (requires auth)
 
 #### Users (`/users`)
+
 - `POST /users` - Create new user
 - `GET /users` - Get all users
 - `GET /users/:id` - Get specific user
@@ -41,20 +45,24 @@ The Event Management API includes comprehensive Swagger/OpenAPI documentation th
 - `DELETE /users/:id` - Delete user
 
 #### File Uploads (`/uploads`)
+
 - `POST /uploads` - Upload files with validation (requires auth)
 
 #### Health Check (`/health`)
+
 - `GET /health` - API health status
 
 ### 🔒 Security Features
 
 #### JWT Authentication
+
 - **Scheme**: Bearer token authentication
 - **Header**: `Authorization: Bearer <token>`
 - **Scope**: Applied to all protected endpoints
 - **Auto-configuration**: Pre-configured in Swagger UI
 
 #### Security Response Codes
+
 - `401 Unauthorized` - Missing or invalid token
 - `403 Forbidden` - Insufficient permissions
 - `400 Bad Request` - Invalid request data
@@ -63,13 +71,16 @@ The Event Management API includes comprehensive Swagger/OpenAPI documentation th
 ### 📝 Request/Response Documentation
 
 #### Detailed Schemas
+
 - **Request Bodies**: Complete schema definitions with examples
 - **Response Models**: Structured response formats
 - **File Uploads**: Multipart form data support with file type validation
 - **Error Responses**: Standardized error response schemas
 
 #### Example Values
+
 All endpoints include realistic example values:
+
 ```json
 {
   "title": "Summer Music Festival",
@@ -86,6 +97,7 @@ All endpoints include realistic example values:
 ### 🎨 UI Customization
 
 #### Enhanced Swagger UI
+
 - **Custom Title**: "Event Management API - Documentation"
 - **Detailed Description**: Comprehensive API overview
 - **Server Information**: Multiple environment configurations
@@ -93,6 +105,7 @@ All endpoints include realistic example values:
 - **License**: MIT License with link
 
 #### Organized Structure
+
 - **Tags**: Logical grouping of endpoints
 - **Operation IDs**: Unique identifiers for each operation
 - **Summary & Description**: Clear, concise endpoint descriptions
@@ -100,15 +113,22 @@ All endpoints include realistic example values:
 ## Configuration
 
 ### Main Configuration (`src/main.ts`)
+
 ```typescript
 const config = new DocumentBuilder()
   .setTitle('Event Management API')
-  .setDescription('Comprehensive API for managing events, users, and file uploads...')
+  .setDescription(
+    'Comprehensive API for managing events, users, and file uploads...',
+  )
   .setVersion('1.0.0')
   .addBearerAuth()
   .addServer('http://localhost:3001', 'Development server')
   .addServer('https://event-managment-app.onrender.com', 'Production server')
-  .setContact('API Support', 'https://yourdomain.com/support', 'support@yourdomain.com')
+  .setContact(
+    'API Support',
+    'https://yourdomain.com/support',
+    'support@yourdomain.com',
+  )
   .setLicense('MIT', 'https://opensource.org/licenses/MIT')
   .addTag('auth', 'Authentication and user management')
   .addTag('events', 'Event management operations')
@@ -119,7 +139,9 @@ const config = new DocumentBuilder()
 ```
 
 ### Controller Decorators
+
 Each controller uses comprehensive Swagger decorators:
+
 - `@ApiTags()` - Endpoint grouping
 - `@ApiOperation()` - Operation description
 - `@ApiResponse()` - Response documentation
@@ -128,7 +150,9 @@ Each controller uses comprehensive Swagger decorators:
 - `@ApiConsumes()` - Content type specification
 
 ### DTO Documentation
+
 All DTOs include `@ApiProperty()` decorators with:
+
 - Property descriptions
 - Example values
 - Validation rules
@@ -138,12 +162,14 @@ All DTOs include `@ApiProperty()` decorators with:
 ## Testing with Swagger UI
 
 ### 1. Authentication
+
 1. Register a new user via `POST /auth/register`
 2. Login via `POST /auth/login` to get JWT token
 3. Click "Authorize" button in Swagger UI
 4. Enter token in format: `Bearer <your-jwt-token>`
 
 ### 2. Testing Endpoints
+
 1. Navigate to any endpoint
 2. Click "Try it out"
 3. Fill in required parameters
@@ -151,6 +177,7 @@ All DTOs include `@ApiProperty()` decorators with:
 5. View response data and status codes
 
 ### 3. File Upload Testing
+
 1. Authenticate first
 2. Navigate to `POST /uploads` or `POST /events`
 3. Use "Choose File" to select images
@@ -160,21 +187,23 @@ All DTOs include `@ApiProperty()` decorators with:
 ## Best Practices
 
 ### API Documentation
+
 - Keep descriptions clear and concise
 - Include realistic example values
 - Document all possible response codes
 - Maintain consistent naming conventions
 
 ### Schema Design
+
 - Use proper data types and formats
 - Include validation constraints
 - Provide meaningful property descriptions
 - Structure nested objects clearly
 
 ### Authentication
+
 - Always test protected endpoints with valid tokens
 - Include proper error handling documentation
-- Document token refresh procedures
 - Specify token expiration information
 
 ## Troubleshooting
@@ -182,20 +211,24 @@ All DTOs include `@ApiProperty()` decorators with:
 ### Common Issues
 
 #### 401 Unauthorized
+
 - Ensure you're logged in and have a valid token
 - Check token format: `Bearer <token>`
 - Verify token hasn't expired
 
 #### 400 Bad Request
+
 - Check required fields are provided
 - Validate data types match schema
 - Ensure file uploads meet size/type requirements
 
 #### CORS Issues
+
 - API is configured with appropriate CORS settings
 - Contact support if accessing from different domains
 
 ### Support
+
 - **Documentation**: `/docs` folder
 - **API Support**: support@yourdomain.com
 - **GitHub Issues**: Create issues for bugs or feature requests
@@ -203,6 +236,7 @@ All DTOs include `@ApiProperty()` decorators with:
 ## Future Enhancements
 
 ### Planned Features
+
 - [ ] API versioning documentation
 - [ ] Rate limiting information
 - [ ] Webhook documentation
@@ -211,6 +245,7 @@ All DTOs include `@ApiProperty()` decorators with:
 - [ ] Bulk operations documentation
 
 ### Integration Examples
+
 - [ ] cURL examples for all endpoints
 - [ ] JavaScript/Node.js examples
 - [ ] Python integration examples

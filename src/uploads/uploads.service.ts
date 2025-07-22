@@ -7,6 +7,7 @@ import * as fs from 'fs';
 @Injectable()
 export class UploadsService {
   private readonly uploadPath = join(__dirname, '..', '..', 'uploads');
+  private readonly tempUploadPath = join(__dirname, '..', '..', 'temp-uploads');
   private readonly allowedMimeTypes = [
     'image/jpeg',
     'image/png',
@@ -16,12 +17,15 @@ export class UploadsService {
   private readonly maxFileSize = 5 * 1024 * 1024; // 5MB
 
   constructor() {
-    this.createUploadFolder();
+    this.createUploadFolders();
   }
 
-  private createUploadFolder() {
+  private createUploadFolders() {
     if (!existsSync(this.uploadPath)) {
       mkdirSync(this.uploadPath, { recursive: true });
+    }
+    if (!existsSync(this.tempUploadPath)) {
+      mkdirSync(this.tempUploadPath, { recursive: true });
     }
   }
 
@@ -50,12 +54,21 @@ export class UploadsService {
     const filePath = join(this.uploadPath, uniqueFileName);
 
     try {
-      // Move the file to the uploads directory
-      await this.moveFile(file.path, filePath);
+      // Handle both buffer (memory storage) and file path (disk storage)
+      if (file.buffer) {
+        // File is in memory, write buffer to disk
+        await this.writeBufferToFile(file.buffer, filePath);
+      } else if (file.path) {
+        // File is on disk, move it to uploads directory
+        await this.moveFile(file.path, filePath);
+      } else {
+        throw new Error('File has neither buffer nor path');
+      }
+      
       return uniqueFileName;
     } catch (error) {
       // Clean up the temporary file if move fails
-      if (existsSync(file.path)) {
+      if (file.path && existsSync(file.path)) {
         unlinkSync(file.path);
       }
       throw new BadRequestException('Failed to upload file: ' + error.message);
@@ -83,6 +96,18 @@ export class UploadsService {
           unlinkSync(source);
         }
         resolve();
+      });
+    });
+  }
+
+  private writeBufferToFile(buffer: Buffer, filePath: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      fs.writeFile(filePath, buffer, (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve();
+        }
       });
     });
   }

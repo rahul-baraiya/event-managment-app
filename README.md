@@ -35,7 +35,7 @@ A comprehensive, production-ready NestJS-based Event Management API with advance
 
 ### 🔐 Authentication & Authorization
 
-- **JWT-based Authentication** with refresh tokens
+- **JWT-based Authentication**
 - **Role-based Access Control** (User, Admin, Moderator)
 - **Password Security** with bcrypt hashing (12 salt rounds)
 - **Strong Password Policy** enforcement
@@ -227,9 +227,7 @@ DB_NAME=event_management
 
 # JWT Configuration
 JWT_SECRET=your_super_secret_jwt_key_here
-JWT_REFRESH_SECRET=your_refresh_token_secret_here
 JWT_EXPIRES_IN=24h
-JWT_REFRESH_EXPIRES_IN=7d
 
 # Application Configuration
 PORT=3000
@@ -367,7 +365,6 @@ src/
 │   ├── auth.service.ts        # Auth business logic
 │   ├── auth.module.ts         # Auth module configuration
 │   ├── jwt.strategy.ts        # JWT authentication strategy
-│   ├── refresh-token.strategy.ts # Refresh token strategy
 │   └── dto/                   # Auth data transfer objects
 ├── events/                    # Events module
 │   ├── events.controller.ts   # Event endpoints
@@ -478,7 +475,6 @@ docker run -p 3000:3000 --env-file .env event-management-api
 ### Authentication & Authorization
 
 - **JWT Tokens**: Secure token-based authentication
-- **Refresh Tokens**: Automatic token renewal
 - **Role-based Access**: User, Admin, Moderator roles
 - **Password Security**: bcrypt with 12 salt rounds
 
@@ -542,7 +538,6 @@ Our API includes comprehensive, interactive documentation powered by Swagger/Ope
 ```
 POST /auth/register     # User registration
 POST /auth/login        # User login
-POST /auth/refresh      # Refresh token
 GET  /auth/profile      # Get user profile
 ```
 
@@ -713,9 +708,7 @@ DB_NAME=event_management
 
 # JWT Configuration
 JWT_SECRET=your-super-secret-jwt-key-minimum-64-characters-long
-JWT_REFRESH_SECRET=your-super-secret-refresh-token-key-minimum-64-characters
 JWT_EXPIRES_IN=24h
-JWT_REFRESH_EXPIRES_IN=7d
 
 # Application Configuration
 PORT=3000
@@ -756,9 +749,7 @@ See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for comprehensive deployment instruction
 | `DB_PASSWORD`             | Database password       | -                         | ✅       |
 | `DB_NAME`                 | Database name           | `event_management`        | ✅       |
 | `JWT_SECRET`              | JWT secret key          | -                         | ✅       |
-| `JWT_REFRESH_SECRET`      | Refresh token secret    | -                         | ✅       |
 | `JWT_EXPIRES_IN`          | Access token expiry     | `24h`                     | ❌       |
-| `JWT_REFRESH_EXPIRES_IN`  | Refresh token expiry    | `7d`                      | ❌       |
 | `PORT`                    | Application port        | `3000`                    | ❌       |
 | `NODE_ENV`                | Environment             | `development`             | ❌       |
 | `ALLOWED_ORIGINS`         | CORS origins            | `http://localhost:3000`   | ❌       |

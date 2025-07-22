@@ -1,6 +1,7 @@
 # 📚 API Documentation
 
 ## Base URL
+
 ```
 http://localhost:3000
 ```
@@ -8,6 +9,7 @@ http://localhost:3000
 ## Authentication
 
 All protected endpoints require a JWT token in the Authorization header:
+
 ```
 Authorization: Bearer <your-jwt-token>
 ```
@@ -15,6 +17,7 @@ Authorization: Bearer <your-jwt-token>
 ## 🔐 Authentication Endpoints
 
 ### Register User
+
 ```http
 POST /auth/register
 Content-Type: application/json
@@ -27,6 +30,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -38,6 +42,7 @@ Content-Type: application/json
 ```
 
 ### Login User
+
 ```http
 POST /auth/login
 Content-Type: application/json
@@ -49,10 +54,10 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "user": {
     "id": 1,
     "username": "john_doe",
@@ -61,24 +66,16 @@ Content-Type: application/json
 }
 ```
 
-### Refresh Token
-```http
-POST /auth/refresh
-Content-Type: application/json
-
-{
-  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-```
-
 ## 🎉 Events Endpoints
 
 ### Get All Events
+
 ```http
 GET /events?page=1&limit=10&search=conference&category=tech&startDate=2025-01-01&endDate=2025-12-31
 ```
 
 **Query Parameters:**
+
 - `page` (optional): Page number (default: 1)
 - `limit` (optional): Items per page (default: 10, max: 100)
 - `search` (optional): Search in title and description
@@ -91,6 +88,7 @@ GET /events?page=1&limit=10&search=conference&category=tech&startDate=2025-01-01
 - `sortOrder` (optional): Sort order (ASC, DESC)
 
 **Response:**
+
 ```json
 {
   "data": [
@@ -122,11 +120,13 @@ GET /events?page=1&limit=10&search=conference&category=tech&startDate=2025-01-01
 ```
 
 ### Get Event by ID
+
 ```http
 GET /events/:id
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -150,6 +150,7 @@ GET /events/:id
 ```
 
 ### Create Event
+
 ```http
 POST /events
 Authorization: Bearer <token>
@@ -167,6 +168,7 @@ images=@image2.jpg
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -186,6 +188,7 @@ images=@image2.jpg
 ```
 
 ### Update Event
+
 ```http
 PUT /events/:id
 Authorization: Bearer <token>
@@ -198,12 +201,14 @@ images=@new-image.jpg
 ```
 
 ### Delete Event
+
 ```http
 DELETE /events/:id
 Authorization: Bearer <token>
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Event deleted successfully"
@@ -213,18 +218,21 @@ Authorization: Bearer <token>
 ## 👥 Users Endpoints
 
 ### Get All Users (Admin only)
+
 ```http
 GET /users
 Authorization: Bearer <admin-token>
 ```
 
 ### Get User by ID
+
 ```http
 GET /users/:id
 Authorization: Bearer <token>
 ```
 
 ### Update User
+
 ```http
 PUT /users/:id
 Authorization: Bearer <token>
@@ -237,6 +245,7 @@ Content-Type: application/json
 ```
 
 ### Delete User
+
 ```http
 DELETE /users/:id
 Authorization: Bearer <token>
@@ -245,6 +254,7 @@ Authorization: Bearer <token>
 ## 📁 File Upload Endpoints
 
 ### Upload Files
+
 ```http
 POST /uploads
 Authorization: Bearer <token>
@@ -255,23 +265,23 @@ files=@image2.jpg
 ```
 
 **Response:**
+
 ```json
 {
-  "filenames": [
-    "1690123456789-image1.jpg",
-    "1690123456790-image2.jpg"
-  ]
+  "filenames": ["1690123456789-image1.jpg", "1690123456790-image2.jpg"]
 }
 ```
 
 ## ❤️ Health Check
 
 ### Health Status
+
 ```http
 GET /health
 ```
 
 **Response:**
+
 ```json
 {
   "status": "ok",
@@ -304,6 +314,7 @@ GET /health
 ## 🚨 Error Responses
 
 ### Standard Error Format
+
 ```json
 {
   "statusCode": 400,
@@ -315,6 +326,7 @@ GET /health
 ```
 
 ### Common HTTP Status Codes
+
 - `200` - Success
 - `201` - Created
 - `400` - Bad Request
@@ -328,6 +340,7 @@ GET /health
 ## 🔒 Security Headers
 
 All responses include security headers:
+
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
 - `X-XSS-Protection: 1; mode=block`
@@ -341,5 +354,6 @@ All responses include security headers:
 ## 🌐 CORS
 
 Allowed origins are configurable via environment variables. Default development origins:
+
 - `http://localhost:3000`
 - `http://localhost:3001`
